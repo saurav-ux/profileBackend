@@ -12,6 +12,7 @@ app.use(express.json());
 //     origin: 'http://localhost:3000', // Allow requests from this origin
 //     credentials: true, // Allow sending cookies and other credentials
 //   }));
+app.use(cors())
 app.use(cors({
     origin:['https://deploy-mern-1whq.vercel.app'],
     methods:['POST','GET','DELETE','PUT'],
