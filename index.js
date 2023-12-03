@@ -8,10 +8,15 @@ import pageRouter from './router/paginationRouter.js'
 import searchRouter from './router/searchRouter.js'
 const PORT = process.env.PORT || 5001;
 app.use(express.json());
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Allow requests from this origin
+//     credentials: true, // Allow sending cookies and other credentials
+//   }));
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
-    credentials: true, // Allow sending cookies and other credentials
-  }));
+    origin:['https://deploy-mern-1whq.vercel.app'],
+    methods:['POST','GET','DELETE','PUT'],
+    credentials:true
+  }))
 
 app.use('/profile',profileRouter)
 app.use('/filter',filterRouter)
