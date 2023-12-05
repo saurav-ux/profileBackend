@@ -85,6 +85,10 @@ searchRouter.get("/:key?", async (req, res) => {
   }
 });
 
+
+
+
+
 // searchRouter.get('/:key?', async (req, res) => {
 //     try {
 //         const searchTerm = req.params.key || ''; // Use an empty string if no parameter is provided

@@ -6,17 +6,37 @@ import ProfileData from "../database/schema.js";
 //add data
 profileRouter.post("/", async (req, res) => {
   try {
-    const addData = new ProfileData(req.body);
-    if (req.body.first_name == "" || req.last_name == "") {
-      res.status(500).send("Please fill input");
-    } else {
-      await addData.save();
-      res.status(200).send(true);
+    if (!Array.isArray(req.body)) {
+      return res.status(400).send("Please send an array of objects");
     }
+
+    const invalidData = req.body.some(item => !item.first_name || !item.last_name);
+    if (invalidData) {
+      return res.status(400).send("Please provide valid first_name and last_name for each object");
+    }
+
+    const insertedData = await ProfileData.insertMany(req.body);
+    res.status(200).send({message:"Data Send Successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Post Errors: ", error);
+    res.status(500).send("Internal Server Post Errors: " + error);
   }
 });
+
+
+
+// profileRouter.post("/", async (req, res) => {
+//   try {
+//     const addData = new ProfileData(req.body);
+//     if (req.body.first_name == "" || req.last_name == "") {
+//       res.status(500).send("Please fill input");
+//     } else {
+//       await addData.save();
+//       res.status(200).send(true);
+//     }
+//   } catch (error) {
+//     res.status(500).send("Internal Server Post Errors: ", error);
+//   }
+// });
 
 
 //get domain
@@ -46,7 +66,7 @@ profileRouter.get("/gender", async (req, res) => {
 
 
 
-//grt data
+//get data
 profileRouter.get("/", async (req, res) => {
   try {
     res.status(200).send(await ProfileData.find({}));
